@@ -1,0 +1,189 @@
+Lesson 1: SQL fundamentals
+1. What is SQL?
+SQL stands for Structured Query Language.
+- It is a standard language used to communicate with relational databases.
+- It is used to create database structures, insert, update, delete and retrieve records.
+- It also helps combine information from multiple tables.
+Real-world applications:
+- Banking: customer accounts and transactions.
+- E-commerce: customers, orders and payments.
+- Healthcare: patient and appointment records.
+- Organizations: employee and salary records.
+2. DBMS vs RDBMS
+DBMS — Database Management System
+- Software used to store, organize, manage and retrieve data.
+- Does not necessarily follow the relational model.
+- Example: a file-based database system.
+RDBMS — Relational Database Management System
+- A type of DBMS based on the relational model.
+- Stores data in tables consisting of rows and columns.
+- Supports relationships between tables using keys.
+- Examples: MySQL, Oracle, PostgreSQL.
+DBMS	RDBMS
+General database management system	Relational database management system
+Does not necessarily use relational tables	Organizes data in tables
+Relationships are not a defining requirement	Supports relationships using keys
+Example: file-based database	MySQL, Oracle, PostgreSQL
+
+Interview point: Every RDBMS is a DBMS, but every DBMS is not necessarily an RDBMS.
+3. SQL vs MySQL
+SQL	MySQL
+Query language	RDBMS software
+Used to write queries	Used to execute queries and manage databases
+Standard language	Database management system
+
+Example: We write an SQL query and execute it using MySQL.
+4. SQL command categories
+SQL commands are commonly classified into five categories.
+Category	Full form	Commands	Purpose
+DDL	Data Definition Language	CREATE, ALTER, DROP, TRUNCATE	Defines database structure
+DML	Data Manipulation Language	INSERT, UPDATE, DELETE	Modifies records
+DQL	Data Query Language	SELECT	Retrieves records
+DCL	Data Control Language	GRANT, REVOKE	Controls permissions
+TCL	Transaction Control Language	COMMIT, ROLLBACK, SAVEPOINT	Manages transactions
+
+Identification tricks:
+- Create or modify structure → DDL
+- Insert, update or delete records → DML
+- Retrieve information → DQL
+- Give or remove permissions → DCL
+- Save or undo transaction changes → TCL
+5. Basic database terminology
+Term	Meaning	Example
+Database	Organized collection of data	CompanyDB
+Table	Data organized in rows and columns	Employee
+Row	One complete record	Rahul's employee record
+Column	An attribute of a table	employee_name
+Schema	Logical structure of a database	Tables and their definitions
+Relationship	Association between tables	Customer and Orders
+
+
+Lesson 2: Data types and constraints
+1. Important MySQL data types
+Data type	Use	Example
+INT	Whole numbers	100
+BIGINT	Large whole numbers	Large IDs
+VARCHAR(n)	Variable-length text	'Rahul'
+CHAR(n)	Fixed-length text	'IN'
+DATE	Date only	'2026-11-05'
+TIME	Time only	'10:30:00'
+DATETIME	Date and time	'2026-11-05 10:30:00'
+DECIMAL(p,s)	Exact decimal values	45000.50
+FLOAT	Approximate decimal values	12.5
+
+Important differences:
+- CHAR vs VARCHAR: fixed length vs variable length.
+- INT vs DECIMAL: whole numbers vs exact decimal values.
+- DATE vs DATETIME: date only vs date and time.
+2. SQL constraints
+Constraints are rules applied to table columns to maintain data accuracy and integrity.
+Constraint	Purpose
+PRIMARY KEY	Uniquely identifies every record; cannot be NULL
+FOREIGN KEY	Establishes a relationship with a referenced key
+UNIQUE	Prevents duplicate non-NULL values
+NOT NULL	Prevents NULL values
+CHECK	Ensures values satisfy a condition
+DEFAULT	Provides a default value when a column is omitted
+
+Important placement concepts:
+- One table has only one PRIMARY KEY constraint, but it can contain multiple columns (composite key).
+- A FOREIGN KEY can contain duplicate values.
+- A FOREIGN KEY can contain NULL unless NOT NULL is also specified.
+- MySQL UNIQUE constraints generally allow multiple NULL values.
+- MySQL enforces CHECK constraints from version 8.0.16.
+- DEFAULT is used when a column is omitted or DEFAULT is explicitly specified.
+Composite Primary Key example:
+PRIMARY KEY (student_id, course_id)
+
+
+This ensures that the combination of student and course is unique.
+
+Lesson 3: SQL commands and basic implementation
+1. Database operations
+CREATE DATABASE CompanyDB;
+
+USE CompanyDB;
+
+SHOW DATABASES;
+
+
+2. Create a table
+CREATE TABLE Employee (
+    emp_id INT,
+    name VARCHAR(50),
+    department VARCHAR(30),
+    salary DECIMAL(10,2),
+    city VARCHAR(30)
+);
+
+
+Useful commands:
+SHOW TABLES;
+
+DESC Employee;
+
+
+3. INSERT — Add records
+Insert all columns:
+INSERT INTO Employee
+VALUES (101, 'Rahul', 'IT', 40000, 'Bhopal');
+
+
+Insert selected columns:
+INSERT INTO Employee (emp_id, name, salary)
+VALUES (102, 'Priya', 50000);
+
+
+Insert multiple records:
+INSERT INTO Employee
+VALUES
+(103, 'Aman', 'HR', 30000, 'Indore'),
+(104, 'Neha', 'IT', 60000, 'Bhopal');
+
+
+Trick: If you don't specify the column list, values must match the table's column order and count.
+4. SELECT — Retrieve records
+SELECT * FROM Employee;
+
+
+Select specific columns:
+SELECT name, salary
+FROM Employee;
+
+
+Use DISTINCT:
+SELECT DISTINCT department
+FROM Employee;
+
+
+Use aliases:
+SELECT name AS Employee_Name
+FROM Employee;
+
+
+Trick: DISTINCT removes duplicate combinations across all selected columns.
+5. UPDATE — Modify records
+UPDATE Employee
+SET salary = 55000
+WHERE emp_id = 102;
+
+
+Increase salary:
+UPDATE Employee
+SET salary = salary + 5000
+WHERE emp_id = 105;
+
+
+Warning: Without WHERE, all records get updated.
+6. DELETE — Remove records
+DELETE FROM Employee
+WHERE emp_id = 103;
+
+
+Warning: Without WHERE, all records are deleted, but the table structure remains.
+7. DELETE vs TRUNCATE vs DROP
+DELETE	TRUNCATE	DROP
+Removes selected or all rows	Removes all rows	Removes entire table
+WHERE supported	WHERE not supported	WHERE not supported
+Table structure remains	Table structure remains	Table structure removed
+DML classification	DDL classification	DDL classification
